@@ -55,8 +55,8 @@ jobs:
           ECR-REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           docker build \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }} \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+            -t "$ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}" \
+            -t "$ECR_REGISTRY/$ECR_REPOSITORY:latest" .
 
       # 8. Push Docker image
       - name: Push Docker Image
