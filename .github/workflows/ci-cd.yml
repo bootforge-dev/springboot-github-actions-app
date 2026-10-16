@@ -1,1 +1,38 @@
+name: Spring Boot CI/CD
+on:
+  push:
+    branches:
+      - main
+permissions:
+  id-token: write
+  contents: read
 
+env:
+  AWS_REGION: ap-south-2
+  ECR_REPOSITORY: springboot-app
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # 1. Checkout source code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Setup Java
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      # 3. Run tests
+      - name: Run tests
+        run:  ./mvnw clean test
+
+      # 4. Build JAR
+      - name: Build Application
+        run: ./mvnw clean package -DskipTests
